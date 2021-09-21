@@ -1,5 +1,5 @@
 const tableUser = (data) => {
-    const container = document.querySelector(".container")
+    const container = document.querySelector(".user")
     const table = `
     <table class="table table-dark">
         <thead>
@@ -22,7 +22,7 @@ const tableUser = (data) => {
         </td>
         </tr>
         `
-        )}
+        ).join("")}
         
         </tbody>
     </table>
@@ -39,7 +39,14 @@ window.onload = async () => {
     try {
         const resp = await fetch("https://jsonplaceholder.typicode.com/users")
         const data = await resp.json()
-        console.log(data)
+        tableUser(data)
+        const input = document.querySelector("input[type=text]")
+        input.addEventListener("input" , function(e){
+            const valueOfInput = e.target.value
+            const selected = document.querySelector("#selected").value
+            const filteredUsers = data.filter(user => user[selected].toLowerCase().includes(valueOfInput))
+            tableUser(filteredUsers)
+        })
     } catch (error) {
        console.error(error) 
     }
